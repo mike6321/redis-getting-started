@@ -24,3 +24,21 @@ hs_err_pid*
 replay_pid*
 
 .idea/
+
+.gradle/8.14/checksums/
+
+.gradle/8.14/fileHashes/
+
+*.properties
+
+.gradle/8.14/fileChanges/
+
+.gradle/
+
+build/tmp/jar/
+
+*.bat
+
+gradlew
+
+build/tmp/compileJava/

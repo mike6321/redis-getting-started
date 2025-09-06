@@ -28,6 +28,10 @@ docker exec -it bd252f1551a1 /bin/bash
 redis-benchmark
 ```
 
+```sh
+redis-cli monitor
+```
+
 ## Data types에 대한 이해
 
 Strings
@@ -48,6 +52,29 @@ Strings
   * DEL (sync)
   * UNLINK (async)
   * MEMORY USAGE
+
+```sh
+-- 저장
+set "users:100:name" "juwnoo"
+set "users:100:email" mike6321@naver.com
+
+-- 단건조회
+get users:100:name
+get users:100:email
+
+-- 다건조회
+get users:100:email users:100:name
+
+-- 증가
+incr counter
+incrby counter 5
+
+-- 감소
+decr counter
+decrby counter 5
+```
+
+
 
 Lists
 
