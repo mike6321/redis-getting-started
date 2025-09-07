@@ -185,6 +185,47 @@ SortedSet
   * ZRANK / ZREVRANK
   * ZINCRBY
 
+```sh
+-- zadd
+zadd game1:scores 100 user1 200 user2 300 user3
+zadd game1:scores 50 user4 150 user5 350 user6
+
+-- zrange (조회)
+zrange game1:scores 0 +inf byscore limit 0 10 withscores
+-- zrange reverse (조회)
+zrange game1:scores +inf 0 byscore rev limit 0 10 withscores
+1) "user4"
+2) "50"
+3) "user1"
+4) "100"
+5) "user5"
+6) "150"
+7) "user2"
+8) "200"
+9) "user3"
+10) "300"
+11) "user6"
+12) "350"
+
+-- zrem
+zrem game1:scores user4
+
+--zincrby
+zincrby game1:scores 500 user2
+1) "user1"
+2) "100"
+3) "user5"
+4) "150"
+5) "user3"
+6) "300"
+7) "user6"
+8) "350"
+9) "user2"
+10) "700"
+```
+
+
+
 Hashes
 
 * 명령어
