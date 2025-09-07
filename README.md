@@ -12,12 +12,18 @@ Redis 학습을 위한 실습 가이드입니다.
   - [Sets](docs/data-types/sets.md)
   - [Sorted Sets](docs/data-types/sorted-sets.md)
   - [Hashes](docs/data-types/hashes.md)
+  - [Transactions](docs/data-types/transactions.md)
 
 ## 개요
 
 Redis는 메모리 기반의 키-값 저장소로, 다양한 데이터 타입을 지원하며 높은 성능을 제공합니다. 이 저장소에서는 Redis의 주요 데이터 타입들을 실습을 통해 학습할 수 있습니다.
 
+------
 
+O(n) 명령어
 
-
-
+* keys
+* linsert (list)
+* hkeys (hash)
+* hgetall (hash)
+* smembers (set)
