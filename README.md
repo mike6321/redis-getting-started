@@ -194,5 +194,33 @@ Hashes
   * HDEL
   * HINCRBY
 
+```sh
+-- hset
+hset [key] [field] [value] [field] [value] ...
+hset users:1:info name junwoo email test@test.com phone 010-1111-1111
+
+-- hget (단건조회)
+hget users:1:info name
+hget users:1:info email
+hget users:1:info phone
+
+-- hgetall (전체조회)
+hgetall users:1:info
+1) "name"
+2) "junwoo"
+3) "email"
+4) "test@test.com"
+5) "phone"
+6) "010-1111-1111"
+
+-- hdel
+hdel "users:1:info" phone
+
+-- hincrby
+hincrby users:1:info visits 10
+```
+
+
+
 
 
