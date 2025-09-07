@@ -86,6 +86,52 @@ Lists
   * LLEN
   * LRANGE
 
+```sh
+-- rpop
+rpush stack1 100
+rpush stack1 100
+rpush stack1 200
+
+rpop stack1
+(200)
+
+-- lpop
+rpush queue1 100
+rpush queue1 200
+rpush queue1 300
+rpush queue1 400
+
+lpop queue1
+(100)
+
+-- lrange
+lrange queue1 0 -1
+1) "200"
+2) "300"
+3) "400"
+
+-- ltrim
+rpush queue 100
+rpush queue 200
+rpush queue 300
+rpush queue 400
+1) "100"
+2) "200"
+3) "300"
+4) "400"
+
+ltrim queue 0 2
+1) "100"
+2) "200"
+3) "300"
+
+--brpop
+brpop queue 5 
+(데이터가 없다면 5s간 대기, blocking된 순서되로 값을 응답)
+```
+
+
+
 Sets
 
 * 명령어
@@ -95,6 +141,35 @@ Sets
   * SMEMBERS
   * SINTER
   * SCARD
+
+```sh
+-- sadd
+sadd user:100:follow 150 130 120
+
+-- scard
+scard user:100:follow
+
+-- sismember (포함여부 확인)
+sismember user:100:follow 200
+
+-- sinter (겹치는 키 확인)
+sadd user:100:follow 10 20 30
+sadd user:200:follow 30 40 50
+
+sinter user:100:follow user:200:follow
+30
+
+-- smembers
+smembers user:100:follow
+1) "10"
+2) "20"
+3) "30"
+
+- srem (삭제)
+srem user:100:follow 30
+```
+
+
 
 SortedSet
 
