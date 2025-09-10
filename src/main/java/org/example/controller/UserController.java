@@ -3,6 +3,7 @@ package org.example.controller;
 import lombok.RequiredArgsConstructor;
 import org.example.entity.User;
 import org.example.repository.UserRepository;
+import org.example.service.UserService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,10 +15,11 @@ import redis.clients.jedis.JedisPool;
 public class UserController {
 
     private final UserRepository userRepository;
+    private final UserService userService;
     private final JedisPool jedisPool;
 
-    @GetMapping("/users/{id}/email")
-    public String getUserEmail(@PathVariable Long id) {
+    @GetMapping("v1/users/{id}/email")
+    public String getUserEmailV1(@PathVariable Long id) {
         String userEmailKey = "users:%s:email";
         try(Jedis jedis = jedisPool.getResource()) {
             // 1. request to cache
@@ -33,6 +35,11 @@ public class UserController {
             jedis.setex(userEmailKey.formatted(id), 30, userEmail);
             return userEmail;
         }
+    }
+
+    @GetMapping("v2/users/{id}/email")
+    public User getUserEmailV2(@PathVariable Long id) {
+        return this.userService.getUser(id);
     }
 
 }

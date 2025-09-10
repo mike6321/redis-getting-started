@@ -1,1 +1,6 @@
-GET http://localhost:8080/users/1/email
+### v1
+GET http://localhost:8080/v1/users/1/email
+
+### v2
+GET http://localhost:8080/v2/users/1/email
+
