@@ -1,6 +1,7 @@
 package org.example.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.example.entity.RedisHashUser;
 import org.example.entity.User;
 import org.example.repository.UserRepository;
 import org.example.service.UserService;
@@ -40,6 +41,11 @@ public class UserController {
     @GetMapping("v2/users/{id}/email")
     public User getUserEmailV2(@PathVariable Long id) {
         return this.userService.getUserV2(id);
+    }
+
+    @GetMapping("v3/users/{id}/email")
+    public RedisHashUser getUserEmailV3(@PathVariable Long id) {
+        return this.userService.getUserV3(id);
     }
 
 }

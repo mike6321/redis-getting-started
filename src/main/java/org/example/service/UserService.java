@@ -1,7 +1,9 @@
 package org.example.service;
 
 import lombok.RequiredArgsConstructor;
+import org.example.entity.RedisHashUser;
 import org.example.entity.User;
+import org.example.repository.RedisHashUserRepository;
 import org.example.repository.UserRepository;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -16,21 +18,22 @@ public class UserService {
     private final UserRepository userRepository;
     private final RedisTemplate<String, User> userRedisTemplate;
     private final RedisTemplate<String, Object> objectRedisTemplate;
+    private final RedisHashUserRepository redisHashUserRepository;
 
-//    public User getUserV1(Long id) {
-//        // 1. cache get
-//        String userKey = "users:%d".formatted(id);
-//        User cachedUser = this.userRedisTemplate.opsForValue().get(userKey);
-//        if (!Objects.isNull(cachedUser)) {
-//            return cachedUser;
-//        }
-//
-//        // 2. db get
-//        User user = this.userRepository.findById(id).orElseThrow();
-//        this.userRedisTemplate.opsForValue().set(userKey, user, Duration.ofSeconds(30));
-//
-//        return user;
-//    }
+    public User getUserV1(Long id) {
+        // 1. cache get
+        String userKey = "users:%d".formatted(id);
+        User cachedUser = this.userRedisTemplate.opsForValue().get(userKey);
+        if (!Objects.isNull(cachedUser)) {
+            return cachedUser;
+        }
+
+        // 2. db get
+        User user = this.userRepository.findById(id).orElseThrow();
+        this.userRedisTemplate.opsForValue().set(userKey, user, Duration.ofSeconds(30));
+
+        return user;
+    }
 
     public User getUserV2(Long id) {
         // 1. cache get
@@ -45,6 +48,23 @@ public class UserService {
         this.userRedisTemplate.opsForValue().set(userKey, user, Duration.ofSeconds(30));
 
         return user;
+    }
+
+    public RedisHashUser getUserV3(Long id) {
+        // 1. cache get
+        return this.redisHashUserRepository.findById(id).orElseGet(() -> {
+            // 2. db get
+            User user = this.userRepository.findById(id).orElseThrow();
+            return this.redisHashUserRepository.save(
+                    RedisHashUser.builder()
+                            .id(user.getId())
+                            .email(user.getEmail())
+                            .name(user.getName())
+                            .updatedAt(user.getUpdatedAt())
+                            .createdAt(user.getCreatedAt())
+                            .build()
+            );
+        });
     }
 
 }
