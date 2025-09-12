@@ -1,10 +1,12 @@
 package org.example.service;
 
 import lombok.RequiredArgsConstructor;
+import org.example.configuration.CacheConfig;
 import org.example.entity.RedisHashUser;
 import org.example.entity.User;
 import org.example.repository.RedisHashUserRepository;
 import org.example.repository.UserRepository;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
@@ -65,6 +67,11 @@ public class UserService {
                             .build()
             );
         });
+    }
+
+    @Cacheable(value = CacheConfig.CACHE1, key = "'users:' + #id")
+    public User getUserV4(Long id) {
+        return this.userRepository.findById(id).orElseThrow();
     }
 
 }

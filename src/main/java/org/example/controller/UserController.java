@@ -48,4 +48,9 @@ public class UserController {
         return this.userService.getUserV3(id);
     }
 
+    @GetMapping("v4/users/{id}/email")
+    public User getUserEmailV4(@PathVariable Long id) {
+        return this.userService.getUserV4(id);
+    }
+
 }
